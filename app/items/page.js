@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import { addItem, editItem } from "../store/features/items/itemsSlice";
@@ -27,10 +27,11 @@ const ItemsPage = () => {
   const [open, setOpen] = useState(false);
   const [editItemData, setEditItemData] = useState(null);
 
-  if (!isLoggedIn) {
-    router.push("/login");
-    return null;
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, router]);
 
   const formik = useFormik({
     initialValues: { name: editItemData?.name || "" },
